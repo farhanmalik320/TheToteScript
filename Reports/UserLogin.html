@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>UserLogin.html</title>
+    <link href="assets/style.css" rel="stylesheet" type="text/css"/></head>
+  <body onLoad="init()">
+    <script>/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+
+function toArray(iter) {
+    if (iter === null) {
+        return null;
+    }
+    return Array.prototype.slice.call(iter);
+}
+
+function find(selector, elem) { // eslint-disable-line no-redeclare
+    if (!elem) {
+        elem = document;
+    }
+    return elem.querySelector(selector);
+}
+
+function findAll(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return toArray(elem.querySelectorAll(selector));
+}
+
+function sortColumn(elem) {
+    toggleSortStates(elem);
+    const colIndex = toArray(elem.parentNode.childNodes).indexOf(elem);
+    let key;
+    if (elem.classList.contains('result')) {
+        key = keyResult;
+    } else if (elem.classList.contains('links')) {
+        key = keyLink;
+    } else {
+        key = keyAlpha;
+    }
+    sortTable(elem, key(colIndex));
+}
+
+function showAllExtras() { // eslint-disable-line no-unused-vars
+    findAll('.col-result').forEach(showExtras);
+}
+
+function hideAllExtras() { // eslint-disable-line no-unused-vars
+    findAll('.col-result').forEach(hideExtras);
+}
+
+function showExtras(colresultElem) {
+    const extras = colresultElem.parentNode.nextElementSibling;
+    const expandcollapse = colresultElem.firstElementChild;
+    extras.classList.remove('collapsed');
+    expandcollapse.classList.remove('expander');
+    expandcollapse.classList.add('collapser');
+}
+
+function hideExtras(colresultElem) {
+    const extras = colresultElem.parentNode.nextElementSibling;
+    const expandcollapse = colresultElem.firstElementChild;
+    extras.classList.add('collapsed');
+    expandcollapse.classList.remove('collapser');
+    expandcollapse.classList.add('expander');
+}
+
+function showFilters() {
+    let visibleString = getQueryParameter('visible') || 'all';
+    visibleString = visibleString.toLowerCase();
+    const checkedItems = visibleString.split(',');
+
+    const filterItems = document.getElementsByClassName('filter');
+    for (let i = 0; i < filterItems.length; i++) {
+        filterItems[i].hidden = false;
+
+        if (visibleString != 'all') {
+            filterItems[i].checked = checkedItems.includes(filterItems[i].getAttribute('data-test-result'));
+            filterTable(filterItems[i]);
+        }
+    }
+}
+
+function addCollapse() {
+    // Add links for show/hide all
+    const resulttable = find('table#results-table');
+    const showhideall = document.createElement('p');
+    showhideall.innerHTML = '<a href="javascript:showAllExtras()">Show all details</a> / ' +
+                            '<a href="javascript:hideAllExtras()">Hide all details</a>';
+    resulttable.parentElement.insertBefore(showhideall, resulttable);
+
+    // Add show/hide link to each result
+    findAll('.col-result').forEach(function(elem) {
+        const collapsed = getQueryParameter('collapsed') || 'Passed';
+        const extras = elem.parentNode.nextElementSibling;
+        const expandcollapse = document.createElement('span');
+        if (extras.classList.contains('collapsed')) {
+            expandcollapse.classList.add('expander');
+        } else if (collapsed.includes(elem.innerHTML)) {
+            extras.classList.add('collapsed');
+            expandcollapse.classList.add('expander');
+        } else {
+            expandcollapse.classList.add('collapser');
+        }
+        elem.appendChild(expandcollapse);
+
+        elem.addEventListener('click', function(event) {
+            if (event.currentTarget.parentNode.nextElementSibling.classList.contains('collapsed')) {
+                showExtras(event.currentTarget);
+            } else {
+                hideExtras(event.currentTarget);
+            }
+        });
+    });
+}
+
+function getQueryParameter(name) {
+    const match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function init () { // eslint-disable-line no-unused-vars
+    resetSortHeaders();
+
+    addCollapse();
+
+    showFilters();
+
+    sortColumn(find('.initial-sort'));
+
+    findAll('.sortable').forEach(function(elem) {
+        elem.addEventListener('click',
+            function() {
+                sortColumn(elem);
+            }, false);
+    });
+}
+
+function sortTable(clicked, keyFunc) {
+    const rows = findAll('.results-table-row');
+    const reversed = !clicked.classList.contains('asc');
+    const sortedRows = sort(rows, keyFunc, reversed);
+    /* Whole table is removed here because browsers acts much slower
+     * when appending existing elements.
+     */
+    const thead = document.getElementById('results-table-head');
+    document.getElementById('results-table').remove();
+    const parent = document.createElement('table');
+    parent.id = 'results-table';
+    parent.appendChild(thead);
+    sortedRows.forEach(function(elem) {
+        parent.appendChild(elem);
+    });
+    document.getElementsByTagName('BODY')[0].appendChild(parent);
+}
+
+function sort(items, keyFunc, reversed) {
+    const sortArray = items.map(function(item, i) {
+        return [keyFunc(item), i];
+    });
+
+    sortArray.sort(function(a, b) {
+        const keyA = a[0];
+        const keyB = b[0];
+
+        if (keyA == keyB) return 0;
+
+        if (reversed) {
+            return keyA < keyB ? 1 : -1;
+        } else {
+            return keyA > keyB ? 1 : -1;
+        }
+    });
+
+    return sortArray.map(function(item) {
+        const index = item[1];
+        return items[index];
+    });
+}
+
+function keyAlpha(colIndex) {
+    return function(elem) {
+        return elem.childNodes[1].childNodes[colIndex].firstChild.data.toLowerCase();
+    };
+}
+
+function keyLink(colIndex) {
+    return function(elem) {
+        const dataCell = elem.childNodes[1].childNodes[colIndex].firstChild;
+        return dataCell == null ? '' : dataCell.innerText.toLowerCase();
+    };
+}
+
+function keyResult(colIndex) {
+    return function(elem) {
+        const strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
+            'Skipped', 'Passed'];
+        return strings.indexOf(elem.childNodes[1].childNodes[colIndex].firstChild.data);
+    };
+}
+
+function resetSortHeaders() {
+    findAll('.sort-icon').forEach(function(elem) {
+        elem.parentNode.removeChild(elem);
+    });
+    findAll('.sortable').forEach(function(elem) {
+        const icon = document.createElement('div');
+        icon.className = 'sort-icon';
+        icon.textContent = 'vvv';
+        elem.insertBefore(icon, elem.firstChild);
+        elem.classList.remove('desc', 'active');
+        elem.classList.add('asc', 'inactive');
+    });
+}
+
+function toggleSortStates(elem) {
+    //if active, toggle between asc and desc
+    if (elem.classList.contains('active')) {
+        elem.classList.toggle('asc');
+        elem.classList.toggle('desc');
+    }
+
+    //if inactive, reset all other functions and add ascending active
+    if (elem.classList.contains('inactive')) {
+        resetSortHeaders();
+        elem.classList.remove('inactive');
+        elem.classList.add('active');
+    }
+}
+
+function isAllRowsHidden(value) {
+    return value.hidden == false;
+}
+
+function filterTable(elem) { // eslint-disable-line no-unused-vars
+    const outcomeAtt = 'data-test-result';
+    const outcome = elem.getAttribute(outcomeAtt);
+    const classOutcome = outcome + ' results-table-row';
+    const outcomeRows = document.getElementsByClassName(classOutcome);
+
+    for(let i = 0; i < outcomeRows.length; i++){
+        outcomeRows[i].hidden = !elem.checked;
+    }
+
+    const rows = findAll('.results-table-row').filter(isAllRowsHidden);
+    const allRowsHidden = rows.length == 0 ? true : false;
+    const notFoundMessage = document.getElementById('not-found-message');
+    notFoundMessage.hidden = !allRowsHidden;
+}
+</script>
+    <h1>UserLogin.html</h1>
+    <p>Report generated on 12-Feb-2023 at 15:50:09 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.2.0</p>
+    <h2>Environment</h2>
+    <table id="environment">
+      <tr>
+        <td>JAVA_HOME</td>
+        <td>C:\Program Files\Java\jdk-19\bin</td></tr>
+      <tr>
+        <td>Packages</td>
+        <td>{"pluggy": "1.0.0", "pytest": "7.2.0"}</td></tr>
+      <tr>
+        <td>Platform</td>
+        <td>Windows-10-10.0.19045-SP0</td></tr>
+      <tr>
+        <td>Plugins</td>
+        <td>{"dependency": "0.5.1", "html": "3.2.0", "metadata": "2.0.4", "parallel": "0.1.1", "xdist": "3.1.0"}</td></tr>
+      <tr>
+        <td>Python</td>
+        <td>3.11.0</td></tr></table>
+    <h2>Summary</h2>
+    <p>0 tests ran in 15.49 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">0 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">1 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <h2>Results</h2>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable result initial-sort" col="result">Result</th>
+          <th class="sortable" col="name">Test</th>
+          <th class="sortable" col="duration">Duration</th>
+          <th class="sortable links" col="links">Links</th></tr>
+        <tr hidden="true" id="not-found-message">
+          <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="error results-table-row">
+        <tr>
+          <td class="col-result">Error</td>
+          <td class="col-name">Testcases/Users/Test_UserLogin.py::Test_Login::test_EnterPin[chrome]::setup</td>
+          <td class="col-duration">15.15</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;Testcases.Users.Test_UserLogin.Test_Login object at 0x00000221932F3310&gt;<br/><br/>    @pytest.fixture<br/>    def test_Login(self):<br/>        # Navigating to the login page<br/>        self.driver.get(self.baseURL)<br/>        # Creating the object of the LoginPage class<br/>        self.driver.obj = LoginPage(self.driver)<br/>        time.sleep(2)  # Pausing execution for 2 seconds<br/>        # Setting the email<br/>        self.driver.obj.setuserEmail(self.email)<br/>        # Setting the password<br/>        self.driver.obj.setPassword(self.password)<br/>        # Clicking on the login button<br/>        self.driver.obj.click_login_btn()<br/>    <br/>        # check the API and print the response of the API<br/>        time.sleep(3)  # Pausing execution for 3 seconds<br/>    <br/>        # Checking if the Enter Login PIN message is displayed<br/>    <br/>        try:<br/>            verify_email_msg= self.driver.obj.get_enterPin_msg()<br/>            if verify_email_msg== &quot;Enter login PIN&quot;:<br/>                print(&quot;Redirected to the PIN screen...&quot;)<br/>            else:<br/>                print(&quot;Error&quot;)<br/>        except Exception as e:<br/>            print(e)<br/>    <br/>        for request in self.driver.requests:<br/>            if request.response and &#x27;/api/&#x27; in request.url:<br/>                print(<br/>                    request.url,<br/>                    request.response.status_code,<br/>                    request.response.body<br/>                )<br/>                if request.response.status_code==200:<br/>                    print(&quot;Test case Pass&quot;)<br/>    <br/>                    response = request.response.body<br/>    <br/>                    # store the response json in the variable<br/>                    # convert response to JSON<br/>                    response_body = json.loads(response)<br/>    <br/>                    # extract the verification code from the response<br/>                    verification_code = response_body[&quot;data&quot;][&quot;verificationCode&quot;]<br/>    <br/>                    print(verification_code)<br/>    <br/>                else:<br/>                    print(&quot;Test case fail&quot;)<br/>                    now = datetime.datetime.now()<br/>                    file_name = &quot;Users-&quot; + now.strftime(&quot;%Y-%m-%d_%H-%M-%S&quot;) + &quot;.png&quot;<br/>                    self.driver.get_screenshot_as_file(<br/>                        &quot;\\Screenshots\\&quot; + file_name)<br/>                    print(&quot;A screenshot was saved as &quot; + file_name)<br/>    <br/>&gt;       return verification_code<br/><span class="error">E       UnboundLocalError: cannot access local variable &#x27;verification_code&#x27; where it is not associated with a value</span><br/><br/>Testcases\Users\Test_UserLogin.py:73: UnboundLocalError<br/> -----------------------------Captured stdout setup------------------------------ <br/>Message: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//div[contains(text(),&#x27;Enter login PIN&#x27;)]&quot;}
+  (Session info: chrome=110.0.5481.78)
+Stacktrace:
+Backtrace:
+	(No symbol) [0x00FB37D3]
+	(No symbol) [0x00F48B81]
+	(No symbol) [0x00E4B36D]
+	(No symbol) [0x00E7D382]
+	(No symbol) [0x00E7D4BB]
+	(No symbol) [0x00EB3302]
+	(No symbol) [0x00E9B464]
+	(No symbol) [0x00EB1215]
+	(No symbol) [0x00E9B216]
+	(No symbol) [0x00E70D97]
+	(No symbol) [0x00E7253D]
+	GetHandleVerifier [0x0122ABF2+2510930]
+	GetHandleVerifier [0x01258EC1+2700065]
+	GetHandleVerifier [0x0125C86C+2714828]
+	GetHandleVerifier [0x01063480+645344]
+	(No symbol) [0x00F50FD2]
+	(No symbol) [0x00F56C68]
+	(No symbol) [0x00F56D4B]
+	(No symbol) [0x00F60D6B]
+	BaseThreadInitThunk [0x756800F9+25]
+	RtlGetAppContainerNamedObjectPath [0x77197BBE+286]
+	RtlGetAppContainerNamedObjectPath [0x77197B8E+238]
+
+http://18.218.10.51:1337/api/auth/local 400 b&#x27;{&quot;data&quot;:null,&quot;error&quot;:{&quot;status&quot;:400,&quot;name&quot;:&quot;BadRequestError&quot;,&quot;message&quot;:&quot;Invalid password .Your remaining login attempts 4&quot;,&quot;details&quot;:{&quot;loginAttemptsRemaining&quot;:4}}}&#x27;
+Test case fail
+A screenshot was saved as Users-2023-02-12_15-50-09.png
+<br/></div></td></tr></tbody></table></body></html>
