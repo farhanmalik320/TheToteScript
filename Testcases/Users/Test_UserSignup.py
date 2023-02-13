@@ -1,20 +1,19 @@
 import time
 from Configurations.Config import testdata
 from pageObjects.Users.Users_SignupPage import SignupPage
-from testCases.test_base import BaseTest
+from Testcases.test_base import BaseTest
 import datetime
 
 class Test_Signup(BaseTest):
 
     baseURL = testdata.user_signup_url
-    email = testdata.user_email
+    email = testdata.user_signup_email
     password = testdata.user_password
     confirm_Password = testdata.confirm_password
 
     def test_signupForm(self):
         self.driver.get(self.baseURL)
         self.driver.obj = SignupPage(self.driver)
-        time.sleep(2)
         self.driver.obj.setuserEmail(self.email)
         self.driver.obj.setPassword(self.password)
         self.driver.obj.setConfirm_Password(self.confirm_Password)

@@ -1,54 +1,42 @@
 import time
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class SignupPage:
 
-    email_name= "email"
-    password_name= "password"
-    confirm_password_name= "confirmPassword"
-    Click_getstarted_butoon_xpath = "//button[normalize-space()='Get Started']"
-    otp_code_by_clname = "//*[@id='root']/div[2]/div/div/form/div[4]/input[1]"
-    Verify_button_click_xpath="//*[@id='root']/div[2]/div/div/form/div[6]/button"
-    success_message_class= "//div[contains(text(),'Email is already registered')]"
-    sucess_msg_class= "body.dark-theme:nth-child(2) div.Toastify div.Toastify__toast-container.Toastify__toast-container--top-right div.Toastify__toast.Toastify__toast-theme--light.Toastify__toast--error.Toastify__toast--close-on-click div.Toastify__toast-body > div:nth-child(2)"
-    verify_email_xpath= "//div[contains(text(),'Check Your Email')]"
+    input_email_by_name= "email"
+    input_password_by_name= "password"
+    input_confirm_password_by_name= "confirmPassword"
+    click_getstartedbtn_by_xpath = "//button[normalize-space()='Get Started']"
+    get_verify_email_text_by_xpath= "//div[contains(text(),'Check Your Email')]"
 
     def __init__(self, driver):
         self.driver = driver
 
-    def setuserEmail(self, Email):
+    def setuserEmail(self, email):
 
-        self.driver.find_element(By.NAME, self.email_name)
-        self.driver.find_element(By.NAME, self.email_name).send_keys(Email)
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.NAME, self.input_email_by_name))).send_keys(email)
 
-    def setPassword(self, Password):
-        self.driver.find_element(By.NAME, self.password_name).clear()
-        self.driver.find_element(By.NAME, self.password_name).send_keys(Password)
+    def setPassword(self, password):
+
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.NAME, self.input_password_by_name))).send_keys(password)
 
     def setConfirm_Password(self, confirm_Password):
-        password_field = self.driver.find_element(By.NAME, self.confirm_password_name)
-        password_field.clear()
-        self.driver.find_element(By.NAME, self.confirm_password_name).send_keys(confirm_Password)
+
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.NAME, self.input_confirm_password_by_name))).send_keys(confirm_Password)
 
     def click_started_button(self):
-        self.driver.find_element(By.XPATH, self.Click_getstarted_butoon_xpath).click()
 
-    def get_success_message(self):
-        success_message= self.driver.find_element(By.XPATH, self.success_message_class)
-        return success_message.text
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.click_getstartedbtn_by_xpath))).click()
 
     def get_verify_email_msg(self):
 
-        verify_email= self.driver.find_element(By.XPATH, self.verify_email_xpath)
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, self.get_verify_email_text_by_xpath)))
+        verify_email= self.driver.find_element(By.XPATH, self.get_verify_email_text_by_xpath)
         return verify_email.text
-
-    def Otp_code(self, tp_code):
-        self.driver.find_element(By.XPATH, self.otp_code_by_clname)
-        self.driver.find_element(By.XPATH, self.otp_code_by_clname).click()
-        self.driver.find_element(By.XPATH, self.otp_code_by_clname).send_keys(tp_code)
-        time.sleep(3)
-        self.driver.find_element(By.XPATH, self.otp_code_by_clname).click()
-
-
-
-

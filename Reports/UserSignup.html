@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8"/>
-    <title>UserLogin.html</title>
+    <title>UserSignup.html</title>
     <link href="assets/style.css" rel="stylesheet" type="text/css"/></head>
   <body onLoad="init()">
     <script>/* This Source Code Form is subject to the terms of the Mozilla Public
@@ -252,8 +252,8 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
     notFoundMessage.hidden = !allRowsHidden;
 }
 </script>
-    <h1>UserLogin.html</h1>
-    <p>Report generated on 13-Feb-2023 at 13:24:35 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.2.0</p>
+    <h1>UserSignup.html</h1>
+    <p>Report generated on 13-Feb-2023 at 12:38:00 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.2.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -272,7 +272,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <td>Python</td>
         <td>3.11.0</td></tr></table>
     <h2>Summary</h2>
-    <p>1 tests ran in 16.37 seconds. </p>
+    <p>1 tests ran in 12.79 seconds. </p>
     <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">1 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
@@ -287,18 +287,12 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
-          <td class="col-name">Testcases/Users/Test_UserLogin.py::Test_Login::test_EnterPin[chrome]</td>
-          <td class="col-duration">16.33</td>
+          <td class="col-name">Testcases/Users/Test_UserSignup.py::Test_Signup::test_signupForm[chrome]</td>
+          <td class="col-duration">12.73</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log"> -----------------------------Captured stdout setup------------------------------ <br/>Redirected to the PIN screen...
-http://18.218.10.51:1337/api/auth/local 200 b&#x27;{&quot;message&quot;:&quot;Verification code sent&quot;,&quot;data&quot;:{&quot;user&quot;:{&quot;id&quot;:290,&quot;email&quot;:&quot;farhaanuser3@yopmail.com&quot;,&quot;provider&quot;:null,&quot;resetPasswordToken&quot;:null,&quot;confirmationToken&quot;:null,&quot;confirmed&quot;:true,&quot;blocked&quot;:false,&quot;createdAt&quot;:&quot;2023-02-11T11:33:49.640Z&quot;,&quot;updatedAt&quot;:&quot;2023-02-13T07:53:47.184Z&quot;,&quot;first_name&quot;:&quot;bsajdajsdkjasldjalki&quot;,&quot;last_name&quot;:&quot;adashdahdkhskdhksdha&quot;,&quot;profile_url&quot;:null,&quot;user_type&quot;:&quot;User&quot;,&quot;pin_code&quot;:&quot;647688&quot;,&quot;signup_code&quot;:null,&quot;login_attempt_count&quot;:0,&quot;verification_code_time&quot;:&quot;2023-02-13T07:53:47.164Z&quot;,&quot;mobile_number&quot;:&quot;+9209007822&quot;,&quot;username&quot;:null,&quot;gender&quot;:&quot;MALE&quot;,&quot;country&quot;:&quot;+244&quot;},&quot;verificationCode&quot;:&quot;485435&quot;}}&#x27;
-Test case Pass
-485435
-<br/> ------------------------------Captured stdout call------------------------------ <br/>Successfully Login and My profile word is visible
-http://18.218.10.51:1337/api/auth/local 200 b&#x27;{&quot;message&quot;:&quot;Verification code sent&quot;,&quot;data&quot;:{&quot;user&quot;:{&quot;id&quot;:290,&quot;email&quot;:&quot;farhaanuser3@yopmail.com&quot;,&quot;provider&quot;:null,&quot;resetPasswordToken&quot;:null,&quot;confirmationToken&quot;:null,&quot;confirmed&quot;:true,&quot;blocked&quot;:false,&quot;createdAt&quot;:&quot;2023-02-11T11:33:49.640Z&quot;,&quot;updatedAt&quot;:&quot;2023-02-13T07:53:47.184Z&quot;,&quot;first_name&quot;:&quot;bsajdajsdkjasldjalki&quot;,&quot;last_name&quot;:&quot;adashdahdkhskdhksdha&quot;,&quot;profile_url&quot;:null,&quot;user_type&quot;:&quot;User&quot;,&quot;pin_code&quot;:&quot;647688&quot;,&quot;signup_code&quot;:null,&quot;login_attempt_count&quot;:0,&quot;verification_code_time&quot;:&quot;2023-02-13T07:53:47.164Z&quot;,&quot;mobile_number&quot;:&quot;+9209007822&quot;,&quot;username&quot;:null,&quot;gender&quot;:&quot;MALE&quot;,&quot;country&quot;:&quot;+244&quot;},&quot;verificationCode&quot;:&quot;485435&quot;}}&#x27;
-Test case Pass
-http://18.218.10.51:1337/api/users-permissions/users/verification/code 200 b&#x27;{&quot;message&quot;:&quot;Success&quot;,&quot;data&quot;:{&quot;user&quot;:{&quot;id&quot;:290,&quot;email&quot;:&quot;farhaanuser3@yopmail.com&quot;,&quot;provider&quot;:null,&quot;resetPasswordToken&quot;:null,&quot;confirmationToken&quot;:null,&quot;confirmed&quot;:true,&quot;blocked&quot;:false,&quot;createdAt&quot;:&quot;2023-02-11T11:33:49.640Z&quot;,&quot;updatedAt&quot;:&quot;2023-02-13T08:24:30.955Z&quot;,&quot;first_name&quot;:&quot;bsajdajsdkjasldjalki&quot;,&quot;last_name&quot;:&quot;adashdahdkhskdhksdha&quot;,&quot;profile_url&quot;:null,&quot;user_type&quot;:&quot;User&quot;,&quot;pin_code&quot;:&quot;485435&quot;,&quot;signup_code&quot;:null,&quot;login_attempt_count&quot;:0,&quot;verification_code_time&quot;:&quot;2023-02-13T08:24:30.936Z&quot;,&quot;mobile_number&quot;:&quot;+9209007822&quot;,&quot;username&quot;:null,&quot;gender&quot;:&quot;MALE&quot;,&quot;country&quot;:&quot;+244&quot;,&quot;role&quot;:{&quot;id&quot;:6,&quot;name&quot;:&quot;User&quot;,&quot;description&quot;:&quot;Default role for customer.&quot;,&quot;type&quot;:&quot;user&quot;,&quot;createdAt&quot;:&quot;2023-01-19T12:50:08.254Z&quot;,&quot;updatedAt&quot;:&quot;2023-02-10T06:23:28.282Z&quot;}},&quot;jwt&quot;:&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjkwLCJpYXQiOjE2NzYyNzY2NzMsImV4cCI6MTY3ODg2ODY3M30.brJa00l6l4-oTfKgww36UtizD42BZXQLKm9JTIrvHYo&quot;}}&#x27;
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>Successfully Registered
+http://18.218.10.51:1337/api/auth/local/register 200 b&#x27;{&quot;message&quot;:&quot;Registration successful&quot;,&quot;data&quot;:{&quot;jwt&quot;:&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjkzLCJpYXQiOjE2NzYyNzM4NzQsImV4cCI6MTY3ODg2NTg3NH0.7OrJTw_HW0LCnZ1hnJuPvdITVZHqErUs4QjDif9v4-A&quot;,&quot;user&quot;:{&quot;id&quot;:293,&quot;email&quot;:&quot;farhaanuser6@yopmail.com&quot;,&quot;confirmed&quot;:false,&quot;createdAt&quot;:&quot;2023-02-13T07:37:54.393Z&quot;,&quot;updatedAt&quot;:&quot;2023-02-13T07:37:54.393Z&quot;,&quot;first_name&quot;:null,&quot;last_name&quot;:null,&quot;profile_url&quot;:null,&quot;user_type&quot;:&quot;User&quot;,&quot;login_attempt_count&quot;:null,&quot;verification_code_time&quot;:null,&quot;mobile_number&quot;:null,&quot;username&quot;:null,&quot;gender&quot;:null,&quot;country&quot;:null,&quot;role&quot;:6}}}&#x27;
 Test case Pass
 <br/></div></td></tr></tbody></table></body></html>

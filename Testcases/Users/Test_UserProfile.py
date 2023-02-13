@@ -6,11 +6,36 @@ from Testcases.test_base import BaseTest
 import datetime
 import json
 
-class Test_Login(BaseTest):
+from pageObjects.Users.Users_ProfilePage import ProfilePage
+
+
+class Test_Profile(BaseTest):
     # Declaring class level variables for URL, email and password
     baseURL = testdata.user_login_url
     email = testdata.user_login_email
     password = testdata.user_password
+    first_name = "hello"
+    last_name= "world"
+    phone_no= "9123456754"
+    country= "Pakistan"
+
+    #add address data
+    name_address= "testing"
+    phone_no_address= "9123456754"
+    email_address= "test@yopmail.com"
+    pin_code_address= "12345"
+    address_type= "Str"
+    address_one= "House 720"
+    address_two= "Isb"
+    landmark= "Mosque"
+    city= "rwp"
+    state= "rwp"
+    save_address_btn_xpath= "//button[normalize-space()='Save Address']"
+
+    #change password data
+    current_password= "123456"
+    new_password= "123456"
+    confirm_password= "1234567"
 
     # Test method to test the login functionality
     @pytest.fixture
@@ -72,7 +97,6 @@ class Test_Login(BaseTest):
 
         return verification_code
 
-
     def test_EnterPin(self, test_Login):
 
         if not test_Login:
@@ -111,3 +135,54 @@ class Test_Login(BaseTest):
 
                 else:
                     print("API Test case Pass")
+
+    @pytest.mark.skip
+    def test_userDetails(self):
+        self.driver.obj = ProfilePage(self.driver)
+        self.driver.obj.enter_firstname(self.first_name)
+        self.driver.obj.enter_lastname(self.last_name)
+        self.driver.obj.enter_phone(self.phone_no)
+        self.driver.obj.click_country_dropdown()
+        self.driver.obj.select_country_dropdown(self.country)
+        self.driver.obj.select_gender()
+        self.driver.obj.click_save_btn()
+        time.sleep(3)
+
+        # check the API and print the response of the API
+        for request in self.driver.requests:
+            if request.response and '/api/' in request.url:
+                print(
+                    request.url,
+                    request.response.status_code,
+                    request.response.body
+                )
+                if request.response.status_code == 400:
+                    print("API Test case Fail")
+                    now = datetime.datetime.now()
+                    file_name = "Users-InputPin" + now.strftime("%Y-%m-%d_%H-%M-%S") + ".png"
+                    self.driver.get_screenshot_as_file(
+                        "\\Screenshots\\" + file_name)
+                    print("A screenshot was saved as " + file_name)
+
+                else:
+                    print("API Test case Pass")
+
+    @pytest.mark.skip
+    def test_userAddress(self):
+
+        self.driver.obj = ProfilePage(self.driver)
+        self.driver.obj.select_address_tab()
+        self.driver.obj.click_add_Address()
+        self.driver.obj.enter_address(self.name_address, self.phone_no_address, self.email_address, self.pin_code_address, self.address_one, self.address_two, self.landmark, self.city, self.state)
+        self.driver.obj.click_country_dropdown()
+        self.driver.obj.select_addresstype(self.address_type)
+        self.driver.obj.click_save_btn()
+        time.sleep(5)
+
+    def test_ChangePassword(self):
+
+        self.driver.obj = ProfilePage(self.driver)
+        self.driver.obj.select_security_tab()
+        self.driver.obj.enterPassword(self.current_password, self.new_password, self.confirm_password)
+        self.driver.obj.click_save_btn()
+        time.sleep(5)
