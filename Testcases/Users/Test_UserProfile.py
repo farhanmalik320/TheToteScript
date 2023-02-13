@@ -33,9 +33,27 @@ class Test_Profile(BaseTest):
     save_address_btn_xpath= "//button[normalize-space()='Save Address']"
 
     #change password data
-    current_password= "123456"
-    new_password= "123456"
-    confirm_password= "1234567"
+    current_password= "Farhan@1234"
+    new_password= "Farhan@1234"
+    confirm_password= "Farhan@1234"
+
+    def check_api_response(self, request, scenario):
+        if request.response and '/api/' in request.url:
+            print(
+                request.url,
+                request.response.status_code,
+                request.response.body
+            )
+            if request.response.status_code == 400:
+                print("API Test case Fail")
+                now = datetime.datetime.now()
+                file_name = scenario + now.strftime("%Y-%m-%d_%H-%M-%S") + ".png"
+                self.driver.get_screenshot_as_file(
+                    "Screenshots\\" + file_name)
+                print("A screenshot was saved as " + file_name)
+
+            else:
+                print("API Test case Pass")
 
     # Test method to test the login functionality
     @pytest.fixture
@@ -90,7 +108,7 @@ class Test_Profile(BaseTest):
                 else:
                     print("Test case fail")
                     now = datetime.datetime.now()
-                    file_name = "Users-" + now.strftime("%Y-%m-%d_%H-%M-%S") + ".png"
+                    file_name = "Users-Login" + now.strftime("%Y-%m-%d_%H-%M-%S") + ".png"
                     self.driver.get_screenshot_as_file(
                         "\\Screenshots\\" + file_name)
                     print("A screenshot was saved as " + file_name)
@@ -119,22 +137,7 @@ class Test_Profile(BaseTest):
             print(e)
 
         for request in self.driver.requests:
-            if request.response and '/api/' in request.url:
-                print(
-                    request.url,
-                    request.response.status_code,
-                    request.response.body
-                )
-                if request.response.status_code == 400:
-                    print("API Test case Fail")
-                    now = datetime.datetime.now()
-                    file_name = "Users-InputPin" + now.strftime("%Y-%m-%d_%H-%M-%S") + ".png"
-                    self.driver.get_screenshot_as_file(
-                        "\\Screenshots\\" + file_name)
-                    print("A screenshot was saved as " + file_name)
-
-                else:
-                    print("API Test case Pass")
+            self.check_api_response(request, "Users-EnterPin")
 
     @pytest.mark.skip
     def test_userDetails(self):
@@ -150,22 +153,7 @@ class Test_Profile(BaseTest):
 
         # check the API and print the response of the API
         for request in self.driver.requests:
-            if request.response and '/api/' in request.url:
-                print(
-                    request.url,
-                    request.response.status_code,
-                    request.response.body
-                )
-                if request.response.status_code == 400:
-                    print("API Test case Fail")
-                    now = datetime.datetime.now()
-                    file_name = "Users-InputPin" + now.strftime("%Y-%m-%d_%H-%M-%S") + ".png"
-                    self.driver.get_screenshot_as_file(
-                        "\\Screenshots\\" + file_name)
-                    print("A screenshot was saved as " + file_name)
-
-                else:
-                    print("API Test case Pass")
+            self.check_api_response(request, "Users-Details")
 
     @pytest.mark.skip
     def test_userAddress(self):
@@ -179,10 +167,18 @@ class Test_Profile(BaseTest):
         self.driver.obj.click_save_btn()
         time.sleep(5)
 
+        # check the API and print the response of the API
+        for request in self.driver.requests:
+            self.check_api_response(request, "Users-Address")
+
     def test_ChangePassword(self):
 
         self.driver.obj = ProfilePage(self.driver)
         self.driver.obj.select_security_tab()
         self.driver.obj.enterPassword(self.current_password, self.new_password, self.confirm_password)
         self.driver.obj.click_save_btn()
-        time.sleep(5)
+        time.sleep(3)
+        # check the API and print the response of the API
+        # check the API and print the response of the API
+        for request in self.driver.requests:
+            self.check_api_response(request, "Users-ChangePass")
