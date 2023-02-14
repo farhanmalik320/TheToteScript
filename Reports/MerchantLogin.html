@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8"/>
-    <title>UserSignup.html</title>
+    <title>MerchantLogin.html</title>
     <link href="assets/style.css" rel="stylesheet" type="text/css"/></head>
   <body onLoad="init()">
     <script>/* This Source Code Form is subject to the terms of the Mozilla Public
@@ -252,8 +252,8 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
     notFoundMessage.hidden = !allRowsHidden;
 }
 </script>
-    <h1>UserSignup.html</h1>
-    <p>Report generated on 14-Feb-2023 at 17:56:07 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.2.0</p>
+    <h1>MerchantLogin.html</h1>
+    <p>Report generated on 14-Feb-2023 at 18:50:54 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.2.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -272,7 +272,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <td>Python</td>
         <td>3.11.0</td></tr></table>
     <h2>Summary</h2>
-    <p>1 tests ran in 45.63 seconds. </p>
+    <p>1 tests ran in 34.32 seconds. </p>
     <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">1 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
@@ -287,12 +287,18 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
-          <td class="col-name">Testcases/Users/test_UserSignup.py::Test_Signup::test_signupForm[chrome]</td>
-          <td class="col-duration">45.55</td>
+          <td class="col-name">Testcases/Merchant/test_MerchantLogin.py::Test_MarchantLogin::test_EnterPin[chrome]</td>
+          <td class="col-duration">34.27</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>Successfully Registered
-http://18.218.10.51:1337/api/auth/local/register 200 b&#x27;{&quot;message&quot;:&quot;Registration successful&quot;,&quot;data&quot;:{&quot;jwt&quot;:&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzIxLCJpYXQiOjE2NzYzNzkzMzMsImV4cCI6MTY3ODk3MTMzM30.WCsEk_cOHFsg-0VcPCtYC5txToGu2gXlSfnPZjIjd5c&quot;,&quot;user&quot;:{&quot;id&quot;:321,&quot;email&quot;:&quot;farhaanuser22@yopmail.com&quot;,&quot;confirmed&quot;:false,&quot;createdAt&quot;:&quot;2023-02-14T12:55:33.635Z&quot;,&quot;updatedAt&quot;:&quot;2023-02-14T12:55:33.635Z&quot;,&quot;first_name&quot;:null,&quot;last_name&quot;:null,&quot;profile_url&quot;:null,&quot;user_type&quot;:&quot;User&quot;,&quot;login_attempt_count&quot;:null,&quot;verification_code_time&quot;:null,&quot;mobile_number&quot;:null,&quot;username&quot;:null,&quot;gender&quot;:null,&quot;country&quot;:null,&quot;role&quot;:6}}}&#x27;
-Test case Pass Registration successful
+            <div class="log"> -----------------------------Captured stdout setup------------------------------ <br/>http://18.218.10.51:1337/api/auth/local 200 b&#x27;{&quot;message&quot;:&quot;Verification code sent&quot;,&quot;data&quot;:{&quot;user&quot;:{&quot;id&quot;:306,&quot;email&quot;:&quot;farhanmerchant@yopmail.com&quot;,&quot;provider&quot;:null,&quot;resetPasswordToken&quot;:null,&quot;confirmationToken&quot;:null,&quot;confirmed&quot;:true,&quot;blocked&quot;:false,&quot;createdAt&quot;:&quot;2023-02-14T11:41:18.680Z&quot;,&quot;updatedAt&quot;:&quot;2023-02-14T13:48:11.561Z&quot;,&quot;first_name&quot;:&quot;Farhan&quot;,&quot;last_name&quot;:&quot;Merchant&quot;,&quot;profile_url&quot;:null,&quot;user_type&quot;:&quot;Merchant&quot;,&quot;pin_code&quot;:&quot;881275&quot;,&quot;signup_code&quot;:null,&quot;login_attempt_count&quot;:0,&quot;verification_code_time&quot;:&quot;2023-02-14T13:48:11.541Z&quot;,&quot;mobile_number&quot;:null,&quot;username&quot;:null,&quot;gender&quot;:null,&quot;country&quot;:null},&quot;verificationCode&quot;:&quot;977935&quot;}}&#x27;
+Test case Pass
+API Test case Pass
+977935
+<br/> ------------------------------Captured stdout call------------------------------ <br/>&#x27;MacrhantLogin&#x27; object has no attribute &#x27;get_profile_text&#x27;
+http://18.218.10.51:1337/api/auth/local 200 b&#x27;{&quot;message&quot;:&quot;Verification code sent&quot;,&quot;data&quot;:{&quot;user&quot;:{&quot;id&quot;:306,&quot;email&quot;:&quot;farhanmerchant@yopmail.com&quot;,&quot;provider&quot;:null,&quot;resetPasswordToken&quot;:null,&quot;confirmationToken&quot;:null,&quot;confirmed&quot;:true,&quot;blocked&quot;:false,&quot;createdAt&quot;:&quot;2023-02-14T11:41:18.680Z&quot;,&quot;updatedAt&quot;:&quot;2023-02-14T13:48:11.561Z&quot;,&quot;first_name&quot;:&quot;Farhan&quot;,&quot;last_name&quot;:&quot;Merchant&quot;,&quot;profile_url&quot;:null,&quot;user_type&quot;:&quot;Merchant&quot;,&quot;pin_code&quot;:&quot;881275&quot;,&quot;signup_code&quot;:null,&quot;login_attempt_count&quot;:0,&quot;verification_code_time&quot;:&quot;2023-02-14T13:48:11.541Z&quot;,&quot;mobile_number&quot;:null,&quot;username&quot;:null,&quot;gender&quot;:null,&quot;country&quot;:null},&quot;verificationCode&quot;:&quot;977935&quot;}}&#x27;
+API Test case Pass
+http://18.218.10.51:1337/api/users-permissions/users/verification/code 200 b&#x27;{&quot;message&quot;:&quot;Success&quot;,&quot;data&quot;:{&quot;user&quot;:{&quot;id&quot;:306,&quot;email&quot;:&quot;farhanmerchant@yopmail.com&quot;,&quot;provider&quot;:null,&quot;resetPasswordToken&quot;:null,&quot;confirmationToken&quot;:null,&quot;confirmed&quot;:true,&quot;blocked&quot;:false,&quot;createdAt&quot;:&quot;2023-02-14T11:41:18.680Z&quot;,&quot;updatedAt&quot;:&quot;2023-02-14T13:50:29.590Z&quot;,&quot;first_name&quot;:&quot;Farhan&quot;,&quot;last_name&quot;:&quot;Merchant&quot;,&quot;profile_url&quot;:null,&quot;user_type&quot;:&quot;Merchant&quot;,&quot;pin_code&quot;:&quot;977935&quot;,&quot;signup_code&quot;:null,&quot;login_attempt_count&quot;:0,&quot;verification_code_time&quot;:&quot;2023-02-14T13:50:29.560Z&quot;,&quot;mobile_number&quot;:null,&quot;username&quot;:null,&quot;gender&quot;:null,&quot;country&quot;:null,&quot;role&quot;:{&quot;id&quot;:7,&quot;name&quot;:&quot;Merchant&quot;,&quot;description&quot;:&quot;Defualt role for seller.&quot;,&quot;type&quot;:&quot;merchant&quot;,&quot;createdAt&quot;:&quot;2023-01-19T12:50:35.366Z&quot;,&quot;updatedAt&quot;:&quot;2023-02-10T07:41:55.601Z&quot;}},&quot;jwt&quot;:&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzA2LCJpYXQiOjE2NzYzODI2MzQsImV4cCI6MTY3ODk3NDYzNH0.uvutwAjF7053SKWq3DQexbKZl820m_GVGXjgP2Gd0Hs&quot;}}&#x27;
+API Test case Pass
 <br/></div></td></tr></tbody></table></body></html>

@@ -3,6 +3,7 @@ from Configurations.Config import testdata
 from pageObjects.Users.Users_SignupPage import SignupPage
 from Testcases.test_base import BaseTest
 import datetime
+import json
 
 class Test_Signup(BaseTest):
 
@@ -40,11 +41,23 @@ class Test_Signup(BaseTest):
                     request.response.status_code,
                     request.response.body
                 )
+
+                response = request.response.body
+                # store the response json in the variable
+                # convert response to JSON
+                response_body = json.loads(response)
+
                 if request.response.status_code==400:
-                    print("Test case fail")
+
+                    # extract the verification code from the response
+                    message = response_body["error"]["message"]
+                    print("Test case fail", message)
                     now = datetime.datetime.now()
                     file_name = "Users-" + now.strftime("%Y-%m-%d_%H-%M-%S") + ".png"
                     self.driver.get_screenshot_as_file("C:\\Users\\cva\\PycharmProjects\\TheTote\\Screenshots\\"+  file_name)
                     print("A screenshot was saved as " + file_name)
                 else:
-                    print("Test case Pass")
+                    # extract the verification code from the response
+                    message = response_body["message"]
+                    print("Test case Pass", message)
+                    self.driver.obj.open_email_URL()
